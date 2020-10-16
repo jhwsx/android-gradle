@@ -1,0 +1,19 @@
+task printStringClass {
+    doLast {
+        def str1 = '单引号'
+        def str2 = "双引号"
+
+        println "单引号定义的字符串类型：" + str1.getClass().name
+        println "双引号定义的字符串类型：" + str2.getClass().name
+    }
+
+}
+
+task printStringVar {
+    doLast {
+        def name = 'zhangsan'
+
+        println '单引号里不能进行变量计算：${name}'
+        println "双引号里能进行变量计算：${name}"
+    }
+}

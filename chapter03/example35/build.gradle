@@ -1,0 +1,30 @@
+// 3.5 任务依赖
+task ex35Hello {
+    doLast {
+        println 'hello'
+    }
+}
+
+task ex35World {
+    doLast {
+        println 'world'
+    }
+}
+
+// ex35Main 这个任务依赖于 ex35Hello 这个任务，所以 ex35Hello 先执行，ex35Main 后执行。
+// 在创建任务的时候，通过 dependsOn 指定其依赖的任务
+// dependsOn 是 Task 类中的一个方法： Task dependsOn(Object... paths);
+task ex35Main(dependsOn: ex35Hello) {
+    doLast {
+        println 'main'
+    }
+}
+
+// ex35MultiTask 依赖于 ex35Hello 和 ex35World 这两个任务
+// TODO ex35Hello 和 ex35World 的执行顺序是怎样的？
+task ex35MultiTask {
+    dependsOn ex35World, ex35Hello
+    doLast {
+        println 'multiTask'
+    }
+}

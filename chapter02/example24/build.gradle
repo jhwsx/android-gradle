@@ -1,0 +1,21 @@
+task helloJavaBean {
+    doLast {
+        Person p = new Person()
+
+        println "p.name = ${p.name}"
+        p.name = "zhangsan"
+        println "p.name = ${p.name}"
+
+        println "p.age = ${p.age}"
+
+        println(p.metaClass)
+    }
+}
+
+class Person {
+    private String name
+
+    public int getAge() {
+        return 12
+    }
+}

@@ -1,0 +1,27 @@
+// settings.gradle 是设置文件，用于初始化以及工程树的配置。settings.gradle 是默认名字。
+rootProject.name = 'android-gradle'
+// chapter01
+include ':example02' // 包含子工程
+project(':example02').projectDir = new File(rootDir, 'chapter01/example02') // 给子工程指定相应的目录
+include ':example03'
+project(':example03').projectDir = new File(rootDir, 'chapter01/example03')
+include ':example04'
+project(':example04').projectDir = new File(rootDir, 'chapter01/example04')
+// chapter02
+include ':example21'
+project(':example21').projectDir = new File(rootDir, 'chapter02/example21')
+include ':example22'
+project(':example22').projectDir = new File(rootDir, 'chapter02/example22')
+include ':example23'
+project(':example23').projectDir = new File(rootDir, 'chapter02/example23')
+include ':example24'
+project(':example24').projectDir = new File(rootDir, 'chapter02/example24')
+//include ':example25'
+//project(':example25').projectDir = new File(rootDir, 'chapter02/example25')
+include ':chapter02:example25'
+// chapter03
+include ':chapter03:example34'
+include ':chapter03:example35'
+include ':chapter03:example36'
+include ':chapter03:example37'
+include ':chapter03:example38'

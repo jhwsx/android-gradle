@@ -1,0 +1,39 @@
+// 3.7 自定义属性
+// Project 和 Task 都允许用户添加额外的自定义属性，通过 ext 属性来实现。
+
+// 单个属性的写法
+ext.age = 18
+
+// 多个属性的写法
+ext {
+    phone = 10086
+    address = 'shanghai'
+}
+
+// 可以跨 Project，跨 Task 访问定义的自定义属性
+
+// 自定义属性还可以用在 SourceSet 中
+sourceSets.all {
+    ext.resourcesDir = null
+}
+
+sourceSets {
+    main {
+        resourcesDir = 'main/res'
+    }
+    test {
+        resourcesDir = 'test/res'
+    }
+}
+
+task ex37CustomProperty {
+    doLast {
+        println "age is: $age"
+        println "phone is: $phone"
+        println "address is: $address"
+
+        sourceSets.each {
+            println "${it.name} 的 resourcesDir 是：${it.resourcesDir}"
+        }
+    }
+}

@@ -1,0 +1,26 @@
+// 3.6 任务间通过 API 控制，交互
+// 变量名就是定义的任务名，类型是 Task。
+task ex36Hello {
+    doLast {
+        println 'doLast1'
+    }
+}
+// Project 在创建任务的时候，同时把任务对应的任务名注册为 Project 的一个属性，类型是 Task。
+// 所以，这里可以直接使用 ex36Hello 来调用方法。
+ex36Hello.doFirst {
+    println 'doFirst'
+}
+
+task ex36World {
+    doLast {
+        println 'world'
+    }
+}
+// 添加一些依赖
+ex36Hello.dependsOn('ex36World')
+
+ex36Hello.doLast {
+    println project.hasProperty('ex36Hello') // 每一个任务都是 Project 的一个属性。
+    println project.depth
+    println 'doLast2'
+}
