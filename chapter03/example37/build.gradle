@@ -14,15 +14,19 @@ ext {
 
 // 自定义属性还可以用在 SourceSet 中
 sourceSets.all {
+    // 定义属性 resourcesDir
     ext.resourcesDir = null
+    ext.flag = null
 }
 
 sourceSets {
     main {
         resourcesDir = 'main/res'
+        flag = true
     }
     test {
         resourcesDir = 'test/res'
+        flag = false
     }
 }
 
@@ -33,7 +37,9 @@ task ex37CustomProperty {
         println "address is: $address"
 
         sourceSets.each {
-            println "${it.name} 的 resourcesDir 是：${it.resourcesDir}"
+            println "${it.name} 的 resourcesDir 是：${it.resourcesDir}, flag 是 ${it.flag}"
         }
+        // 获取 rootProject 定义的属性
+        println "${rootProject.versionName}"
     }
 }

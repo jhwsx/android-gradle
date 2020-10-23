@@ -4,7 +4,7 @@ task exScriptIsCode {
     }
 }
 
-def buildTime() {
+static def buildTime() {
     def date = new Date()
     def formattedDate = date.format("yyyy-MM-dd-HHmmss", TimeZone.getTimeZone("GMT+08"))
     return formattedDate

@@ -9,6 +9,7 @@ task customTask1 {
     }
 }
 // 等价的写法是：
+// 通过 TaskContainer 对象来创建任务，通过 tasks 来获取这个对象。
 tasks.create("customTask2") {
     doFirst {
         println 'customTask2:doFirst'

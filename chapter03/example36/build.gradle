@@ -6,7 +6,7 @@ task ex36Hello {
     }
 }
 // Project 在创建任务的时候，同时把任务对应的任务名注册为 Project 的一个属性，类型是 Task。
-// 所以，这里可以直接使用 ex36Hello 来调用方法。
+// 所以，这里可以直接在 Project 里使用 ex36Hello 来调用方法。
 ex36Hello.doFirst {
     println 'doFirst'
 }
@@ -24,3 +24,14 @@ ex36Hello.doLast {
     println project.depth
     println 'doLast2'
 }
+
+/**
+ wangzhichao@wangzhichao:~/IDEAProjects/android-gradle/chapter03/example36$ gradle -q ex36Hello
+ world
+ doFirst
+ doLast1
+ true
+ 2
+ doLast2
+
+ */
