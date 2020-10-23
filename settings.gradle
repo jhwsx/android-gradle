@@ -25,3 +25,5 @@ include ':chapter03:example35'
 include ':chapter03:example36'
 include ':chapter03:example37'
 include ':chapter03:example38'
+// chapter04 Gradle 任务
+include ':chapter04:example41'
