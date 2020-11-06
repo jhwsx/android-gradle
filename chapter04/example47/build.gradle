@@ -1,0 +1,10 @@
+// 4.7 任务的启用和禁用
+task ex47DisenableTask {
+    doLast {
+        println "ex47DisenableTask"
+    }
+}
+
+ex47DisenableTask.enabled = false
+
+// 打印信息：> Task :chapter04:example47:ex47DisenableTask SKIPPED

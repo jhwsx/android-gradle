@@ -43,7 +43,7 @@ task ex41CreateTask3 {
 
 // 以上四种方式，最终调用的都是 TaskContainer 对象的 create 方法
 tasks.create('ex41CreateTask4') {
-    println it
+    // println it
     description '演示任务创建'
     dependsOn ex41CreateTask1
     didWork true

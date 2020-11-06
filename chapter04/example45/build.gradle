@@ -1,0 +1,16 @@
+// 4.5 任务的执行分析
+Task myTask = task ex45CustomTask(type: CustomTask)
+myTask.doFirst {
+    println 'Task 执行之前执行 in doFirst'
+}
+myTask.doLast {
+    println 'Task 执行之后执行 in doLast'
+}
+
+class CustomTask extends DefaultTask {
+    @TaskAction
+    // @TaskAction 注解表示该方法就是 Task 本身执行要执行的方法。
+    def doSelf() {
+        println 'Task 本身在执行 in doLast'
+    }
+}

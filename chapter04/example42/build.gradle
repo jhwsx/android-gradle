@@ -1,0 +1,36 @@
+// 4.2 多种方式访问任务
+
+// 1, 通过任务名称访问和操作任务，这是因为创建的任务会作为项目的一个属性，属性名就是任务名。
+task ex42AccessTask1
+
+ex42AccessTask1.doLast {
+    println 'ex42AccessTask1.doLast'
+}
+
+// 2, 通过 tasks 属性访问 TaskContainer 对象，而 TaskContainer 就是创建任务的集合，
+// 所以，可以通过访问集合元素的方式来访问创建的任务
+task ex42AccessTask2
+// 这里的[] 是 T getAt(String name) throws UnknownTaskException;
+tasks['ex42AccessTask2'].doLast {
+    println 'ex42AccessTask2.doLast'
+}
+
+// 3, 通过路径访问
+task ex42AccessTask3
+tasks['ex42AccessTask3'].doLast {
+    println tasks.findByPath(":chapter04:example42:ex42AccessTask3")
+    println tasks.getByPath(":chapter04:example42:ex42AccessTask3")
+//    println tasks.findByPath(":a:b:c") // 找不到返回 null
+//    println tasks.getByPath(":a:b:c") // 找不到抛出 UnknownTaskException
+}
+
+// 4, 通过名称访问
+task ex42AccessTask4
+tasks['ex42AccessTask4'].doLast {
+    println tasks.findByName("ex42AccessTask3")
+    println tasks.getByPath("ex42AccessTask3")
+//    println tasks.findByPath("c") // 找不到返回 null
+//    println tasks.getByPath("c") // 找不到抛出 UnknownTaskException
+}
+
+

@@ -1,0 +1,104 @@
+// 4.8 任务的 onlyIf 断言
+final String BUILD_APPS_ALL = "all"
+final String BUILD_APPS_SHOUFA = "shoufa"
+final String BUILD_APPS_EXCLUDE_SHOUFA = "exclude_shoufa"
+
+task ex48QQRelease {
+    doLast {
+        println "打应用宝的包"
+    }
+}
+
+task ex48BaiduRelease {
+    doLast {
+        println "打百度的包"
+    }
+}
+
+task ex48HuaweiRelease {
+    doLast {
+        println "打华为的包"
+    }
+}
+
+task ex48XiaomiRelease {
+    doLast {
+        println "打小米的包"
+    }
+}
+
+task build {
+    group BasePlugin.BUILD_GROUP
+    description "打渠道包"
+}
+
+build.dependsOn ex48QQRelease, ex48BaiduRelease, ex48HuaweiRelease, ex48XiaomiRelease
+
+ex48QQRelease.onlyIf {
+    def execute
+    if (project.hasProperty("build_apps")) {
+        Object buildApps = project.property("build_apps")
+        if (BUILD_APPS_SHOUFA.equals(buildApps)
+                || BUILD_APPS_ALL.equals(buildApps)) {
+            execute = true
+        } else {
+            execute = false
+        }
+    } else {
+        execute = true
+    }
+    execute
+}
+
+ex48BaiduRelease.onlyIf {
+    def execute
+    if (project.hasProperty("build_apps")) {
+        Object buildApps = project.property("build_apps")
+        if (BUILD_APPS_SHOUFA.equals(buildApps)
+                || BUILD_APPS_ALL.equals(buildApps)) {
+            execute = true
+        } else {
+            execute = false
+        }
+    } else {
+        execute = true
+    }
+    execute
+}
+
+ex48HuaweiRelease.onlyIf {
+    def execute
+    if (project.hasProperty("build_apps")) {
+        Object buildApps = project.property("build_apps")
+        if (BUILD_APPS_EXCLUDE_SHOUFA.equals(buildApps)
+                || BUILD_APPS_ALL.equals(buildApps)) {
+            execute = true
+        } else {
+            execute = false
+        }
+    } else {
+        execute = true
+    }
+    execute
+}
+
+ex48XiaomiRelease.onlyIf {
+    def execute
+    if (project.hasProperty("build_apps")) {
+        Object buildApps = project.property("build_apps")
+        if (BUILD_APPS_EXCLUDE_SHOUFA.equals(buildApps)
+                || BUILD_APPS_ALL.equals(buildApps)) {
+            execute = true
+        } else {
+            execute = false
+        }
+    } else {
+        execute = true
+    }
+    execute
+}
+// 打所有渠道的包： gradle -Pbuild_apps=all build
+// 打首发的包： gradle -Pbuild_apps=shoufa build
+// 打非首发的包： gradle -Pbuild_apps=exclude_shoufa build
+
+// -P 的意思是为 Project 指定 K-V 格式的属性键值对，使用格式为-PK=V。

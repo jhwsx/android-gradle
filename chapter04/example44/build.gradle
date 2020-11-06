@@ -1,0 +1,10 @@
+// 4.4 << 操作符 用来代替 doLast，但是 << 操作符已经废弃了。 @deprecated Use {@link #doLast(Closure action)}
+// The Task.leftShift(Closure) method has been deprecated and is scheduled to be removed in Gradle 5.0.
+// Please use Task.doLast(Action) instead.
+//task(ex44DoLast1) << {
+//    println 'ex44DoLast1'
+//}
+
+task(ex44DoLast2).doLast {
+    println 'ex44DoLast2'
+}
