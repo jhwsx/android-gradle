@@ -35,3 +35,7 @@ include ':chapter04:example46'
 include ':chapter04:example47'
 include ':chapter04:example48'
 include ':chapter04:example49'
+// chapter05 Gradle 插件
+include ':chapter05:example52'
+include ':chapter05:example53'
+include ':chapter05:example53_2'

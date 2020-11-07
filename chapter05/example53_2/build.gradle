@@ -1,0 +1,7 @@
+buildscript {
+    dependencies {
+        classpath files('libs/groovypluginproject.jar')
+    }
+}
+
+apply plugin: 'com.wzc.plugin.ex53customplugin'

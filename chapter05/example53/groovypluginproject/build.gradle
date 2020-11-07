@@ -1,0 +1,9 @@
+plugins {
+    id 'groovy'
+}
+
+dependencies {
+    // 添加插件开发所需的依赖
+    compile gradleApi()
+    compile localGroovy()
+}
