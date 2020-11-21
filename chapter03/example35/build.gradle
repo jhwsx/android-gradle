@@ -21,10 +21,17 @@ task ex35Main(dependsOn: ex35Hello) {
 }
 
 // ex35MultiTask 依赖于 ex35Hello 和 ex35World 这两个任务
-// TODO ex35Hello 和 ex35World 的执行顺序是怎样的？
+// ex35Hello 和 ex35World 的执行顺序是怎样的？
+// ex35Hello 先执行，ex35World 后执行。
 task ex35MultiTask {
     dependsOn ex35World, ex35Hello
     doLast {
         println 'multiTask'
     }
 }
+/**
+ * ex35MultiTask 执行结果：
+ * hello
+ * world
+ * multiTask
+ */

@@ -1,4 +1,52 @@
 // 4.5 任务的执行分析
+// 当执行一个 Task 的时候，其实就是执行项目拥有的 actions 列表，在 gradle6.7.1中对应的是 AbstractTask 类中的
+// private List<InputChangesAwareTaskAction> actions;
+// @Override
+// public List<InputChangesAwareTaskAction> getTaskActions() {
+//     if (actions == null) {
+//         actions = new ArrayList<InputChangesAwareTaskAction>(3);
+//     }
+//     return actions;
+// }
+// Gradle 会解析带有 TaskAction 注解的方法作为 Task 本身执行的 action，并通过
+//  @Override
+//    public void prependParallelSafeAction(final Action<? super Task> action) {
+//        if (action == null) {
+//            throw new InvalidUserDataException("Action must not be null!");
+//        }
+//        getTaskActions().add(0, wrap(action));
+//    }
+// 插入到 actions 集合里面。TODO 为什么是这个方法呢？
+// doFirst 就是把 action 放在 actions 集合的最前面
+// @Override
+//    public Task doFirst(final String actionName, final Action<? super Task> action) {
+//        hasCustomActions = true;
+//        if (action == null) {
+//            throw new InvalidUserDataException("Action must not be null!");
+//        }
+//        taskMutator.mutate("Task.doFirst(Action)", new Runnable() {
+//            @Override
+//            public void run() {
+//                getTaskActions().add(0, wrap(action, actionName));
+//            }
+//        });
+//        return this;
+//    }
+// doLast 就是把 action 放在 actions 集合的最后面
+// @Override
+//    public Task doLast(final String actionName, final Action<? super Task> action) {
+//        hasCustomActions = true;
+//        if (action == null) {
+//            throw new InvalidUserDataException("Action must not be null!");
+//        }
+//        taskMutator.mutate("Task.doLast(Action)", new Runnable() {
+//            @Override
+//            public void run() {
+//                getTaskActions().add(wrap(action, actionName));
+//            }
+//        });
+//        return this;
+//    }
 Task myTask = task ex45CustomTask(type: CustomTask)
 myTask.doFirst {
     println 'Task 执行之前执行 in doFirst'

@@ -1,4 +1,5 @@
 // 4.3 任务分组和描述
+// 在 IDE 右侧的 Gradle 列表里，可以看到下面定义的任务位于 build 分组下，悬停在上面可以看到任务描述。
 Task myTask = task ex43GroupTask
 myTask.group = BasePlugin.BUILD_GROUP
 myTask.description = '这是一个构建的引导任务'

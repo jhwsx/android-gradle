@@ -1,9 +1,11 @@
 // 多种方式创建任务
 
 // 第一种方式：直接以一个任务名字创建任务
-Task ex41CreateTask1 = task(ex41CreateTask1)
+// 注意：真正在 Project 里注册的任务名是括号里面的名字。使用 gradle -q taskName，只能输入括号里面的名字。
+// 因此，需要把前面的变量名字和括号里的名字写成一样的，不要给自己找麻烦了。
+Task ex41CreateTask11 = task(ex41CreateTask1)
 
-ex41CreateTask1.doLast {
+ex41CreateTask11.doLast {
     println '创建方法原型为：Project.java 中的 Task task(String name) throws InvalidUserDataException'
 }
 
@@ -23,9 +25,14 @@ ex41CreateTask2.doLast {
 
 // 第三种方式：任务名字 + 闭包配置
 // 配置灵活, 可以对 Task 对象的任何方法，属性进行配置
+task ex41DependsOn {
+    doLast {
+        println "call task ex41DependsOn"
+    }
+}
 task ex41CreateTask3 {
     description '演示任务创建'
-    dependsOn ex41CreateTask1
+    dependsOn ex41DependsOn
     didWork true
     enabled true
     property "didWork"
@@ -42,6 +49,7 @@ task ex41CreateTask3 {
 // 第四种方式：名字 + Map 参数 + 闭包
 
 // 以上四种方式，最终调用的都是 TaskContainer 对象的 create 方法
+// tasks 是什么？是 Project.java 中的 TaskContainer getTasks();，类型就是 TaskContainer。
 tasks.create('ex41CreateTask4') {
     // println it
     description '演示任务创建'

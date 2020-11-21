@@ -10,8 +10,9 @@ task ex46OrderTask2 {
     }
 }
 
-// ex46OrderTask1.mustRunAfter ex46OrderTask2 ex46OrderTask1 一定在 ex46OrderTask2 之后执行
-// ex46OrderTask1.shouldRunAfter ex46OrderTask2 ex46OrderTask1 应该在 ex46OrderTask2 之后执行，但有可能不会。
+// ex46OrderTask1.mustRunAfter ex46OrderTask2 // ex46OrderTask1 一定在 ex46OrderTask2 之后执行
+ ex46OrderTask1.shouldRunAfter ex46OrderTask2 // ex46OrderTask1 应该在 ex46OrderTask2 之后执行，但有可能不会。
 
 // 测试命令：
+// 打开上面两行中的一个
 // wangzhichao@wangzhichao:~/IDEAProjects/android-gradle/chapter04/example46$ gradle -q ex46OrderTask1 ex46OrderTask2

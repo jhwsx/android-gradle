@@ -1,4 +1,35 @@
 // 4.9 任务规则
+// 在 DefaultTaskContainer 中
+//     @Override
+//    public Task findByName(String name) {
+//        Task task = super.findByName(name);
+//        if (task != null) {
+//            return task;
+//        }
+//        if (!maybeCreateTasks(name)) {
+//            return null;
+//        }
+//        return super.findByNameWithoutRules(name);
+//    }
+// 父类 DefaultNamedDomainObjectCollection 的方法是
+//     @Override
+//    public T findByName(String name) {
+//        T value = findByNameWithoutRules(name);
+//        if (value != null) {
+//            return value;
+//        }
+//        ProviderInternal<? extends T> provider = index.getPending(name);
+//        if (provider != null) {
+//            // TODO - this isn't correct, assumes that a side effect is to add the element
+//            provider.getOrNull();
+//            // Use the index here so we can apply any filters to the realized element
+//            return index.get(name);
+//        }
+//        if (!applyRules(name)) {
+//            return null;
+//        }
+//        return findByNameWithoutRules(name);
+//    }
 tasks.addRule("当任务不存在时，该规则生效") {
     String taskName ->
         task(taskName) {

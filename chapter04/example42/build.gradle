@@ -27,10 +27,14 @@ tasks['ex42AccessTask3'].doLast {
 // 4, 通过名称访问
 task ex42AccessTask4
 tasks['ex42AccessTask4'].doLast {
-    println tasks.findByName("ex42AccessTask3")
-    println tasks.getByPath("ex42AccessTask3")
-//    println tasks.findByPath("c") // 找不到返回 null
-//    println tasks.getByPath("c") // 找不到抛出 UnknownTaskException
+    println tasks.findByName("ex42AccessTask4")
+    println tasks.getByName("ex42AccessTask4")
+    println tasks.findByPath("ex42AccessTask4") // 通过路径访问，可以只传入任务名字。
+    println tasks.getByPath("ex42AccessTask4") // 通过路径访问，可以只传入任务名字。
+    println tasks.findByName(":chapter04:example42:ex42AccessTask4") // null，通过名字访问，参数值不可以是路径
+//    println tasks.getByName(":chapter04:example42:ex42AccessTask4") // 找不到报错，通过名字访问，参数值不可以是路径
+//    println tasks.findByName("c") // 找不到返回 null
+//    println tasks.getByName("c") // 找不到抛出 UnknownTaskException
 }
 
 

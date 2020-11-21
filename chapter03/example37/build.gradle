@@ -8,13 +8,15 @@ ext.age = 18
 ext {
     phone = 10086
     address = 'shanghai'
+    versonName = '1.0.0'
+    versionCode = 1
 }
 
 // 可以跨 Project，跨 Task 访问定义的自定义属性
 
 // 自定义属性还可以用在 SourceSet 中
 sourceSets.all {
-    // 定义属性 resourcesDir
+    // 定义属性 resourcesDir，没有定义后面是不可以使用的。
     ext.resourcesDir = null
     ext.flag = null
 }
@@ -35,7 +37,8 @@ task ex37CustomProperty {
         println "age is: $age"
         println "phone is: $phone"
         println "address is: $address"
-
+        println "versionName is: $versionName"
+        println "versionCode is: $versionCode"
         sourceSets.each {
             println "${it.name} 的 resourcesDir 是：${it.resourcesDir}, flag 是 ${it.flag}"
         }
