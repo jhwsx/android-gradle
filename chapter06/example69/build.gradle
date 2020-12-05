@@ -1,0 +1,7 @@
+apply plugin: 'java'
+
+task publishJar(type: Jar)
+
+artifacts {
+    archives publishJar
+}

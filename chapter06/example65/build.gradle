@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+// sourceSets {} 闭包配置的都是 SourceSet 对象。
+// sourceSets 是一个 SourceSetContainer。
+sourceSets {
+    main {
+        java {
+            srcDir 'src/java'
+        }
+        resources {
+            srcDir 'src/resources'
+        }
+    }
+    test {
+        java {
+            srcDir 'src/codes'
+        }
+    }
+}
+
+task ex65SourceSetTask {
+    doLast {
+        sourceSets.all {
+            println name
+        }
+    }
+}

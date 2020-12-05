@@ -1,0 +1,51 @@
+apply plugin:'java'
+
+repositories {
+    // 仓库的位置
+    mavenCentral()
+}
+// 指定不同的源代码集合
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main'
+        }
+        resources {
+            srcDir 'src/resources'
+        }
+    }
+    normal {
+        java {
+            srcDir 'src/normal'
+        }
+        resources {
+            srcDir 'src/resources'
+        }
+    }
+    vip {
+        java {
+            srcDir 'src/vip'
+        }
+        resources {
+            srcDirs = ['src/vip/resources', 'src/vip/resources-vip']
+        }
+    }
+
+}
+
+dependencies {
+    // 外部依赖
+    // group, name, version 合起来才标记一个唯一的构件
+    // implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.0'
+    // 简写的方式
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+
+    normalImplementation "io.reactivex.rxjava2:rxjava:2.2.14"
+
+    vipImplementation "io.reactivex.rxjava3:rxjava:3.0.7"
+    // 项目依赖
+    implementation project(":chapter06:example62")
+    // 文件依赖
+//    implementation files('libs/example62.jar')
+}
+

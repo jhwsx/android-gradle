@@ -1,0 +1,33 @@
+apply plugin:'java'
+// build 会编译代码文件，处理资源文件，打成 jar 包，然后编译测试用例代码，处理测试资源，最后运行单元测试。
+//> Task :chapter06:example64:compileJava UP-TO-DATE
+//> Task :chapter06:example64:processResources NO-SOURCE
+//> Task :chapter06:example64:classes UP-TO-DATE
+//> Task :chapter06:example64:jar UP-TO-DATE
+//> Task :chapter06:example64:assemble UP-TO-DATE
+//> Task :chapter06:example64:compileTestJava
+//> Task :chapter06:example64:processTestResources NO-SOURCE
+//> Task :chapter06:example64:testClasses
+//> Task :chapter06:example64:test
+//> Task :chapter06:example64:check
+//> Task :chapter06:example64:build
+
+// clean
+// > Task :chapter06:example64:clean
+
+// assemble 不会执行单元测试，只会编译和打包。
+//> Task :chapter06:example64:compileJava
+//> Task :chapter06:example64:processResources NO-SOURCE
+//> Task :chapter06:example64:classes
+//> Task :chapter06:example64:jar
+//> Task :chapter06:example64:assemble
+
+// check 只会执行单元测试，并做一些质量检查
+//> Task :chapter06:example64:compileJava UP-TO-DATE
+//> Task :chapter06:example64:processResources NO-SOURCE
+//> Task :chapter06:example64:classes UP-TO-DATE
+//> Task :chapter06:example64:compileTestJava
+//> Task :chapter06:example64:processTestResources NO-SOURCE
+//> Task :chapter06:example64:testClasses
+//> Task :chapter06:example64:test
+//> Task :chapter06:example64:check
