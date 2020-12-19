@@ -1,0 +1,32 @@
+buildscript {
+    repositories {
+        // google maven 仓库
+        google()
+        // Android Gradle 插件托管在 jcenter 上
+        jcenter()
+
+    }
+    dependencies {
+        // 配置 Android Gradle 插件的 classpath
+        classpath 'com.android.tools.build:gradle:4.1.1'
+    }
+}
+
+// TODO 这种写法为什么不对？Plugin [id: 'com.android.application'] was not found in any of the following sources:
+//plugins {
+//    id 'com.android.application'
+//}
+
+// App 插件 id
+//apply plugin: 'com.android.application'
+// Library 插件 id
+apply plugin: 'com.android.library'
+// Test 插件 id 这个好像过期了。
+//apply plugin: 'com.android.test'
+
+// android{}是 Android 插件提供的一个扩展类型，方便我们自定义 Android Gradle 工程。
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+}
+
