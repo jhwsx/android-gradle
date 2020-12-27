@@ -1,0 +1,84 @@
+buildscript {
+    repositories {
+        // google maven 仓库
+        google()
+        // Android Gradle 插件托管在 jcenter 上
+        jcenter()
+
+    }
+    dependencies {
+        // 配置 Android Gradle 插件的 classpath
+        // 位置：C:\Users\39233\.gradle\caches\modules-2\files-2.1\com.android.tools.build\gradle\4.1.1\d5145d9dbbe88a1567b6ed988cf24d5965e4fc5b
+        classpath 'com.android.tools.build:gradle:4.1.1'
+    }
+}
+
+// 这里必须加上，不然找不到依赖。
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    signingConfigs {
+        release {
+            storeFile file("releasekey.jks")
+            storePassword "123456"
+            keyAlias "releasekey"
+            keyPassword "123456"
+        }
+        debug {
+            storeFile file("debugkey.jks")
+            storePassword "123456"
+            keyAlias "debugkey"
+            keyPassword "123456"
+        }
+    }
+    defaultConfig {
+        applicationId "com.example.example"
+        minSdkVersion 16 // 最低支持的 Android 操作系统版本，值为 api level
+        targetSdkVersion 30 // 基于哪个 Android 操作系统版本开发
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes { // 构建类型
+        release {
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' // 参数是一个可变类型的参数，可以同时接受多个配置文件。
+        }
+
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
