@@ -1,0 +1,4 @@
+ext { // ext{} 表示要为当前 project 创建扩展属性
+    appVersionCode = 1
+    appVersionName = "1.0.0"
+}

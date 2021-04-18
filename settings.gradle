@@ -53,3 +53,5 @@ include ':chapter07:example73'
 include ':chapter07:example74'
 // chapter08  自定义 Gradle 工程
 include ':chapter08:example'
+// chapter09 Android Gradle 高级自定义
+include ':chapter09:example'
