@@ -1,5 +1,11 @@
+// 在 Terminal 中打开所在目录，使用命令：gradle -q hello，来运行 task。
 task hello {
     doLast {
         println 'Hello world!'
     }
 }
+// build.gradle 是 Gradle 默认的构建脚本文件，执行 Gradle 命令的时候，会默认加载当前目录下的 build.gradle 脚本文件。
+// hello 是任务的名字，这里 task hello 定义了一个名字为 hello 的任务
+// 最外层的大括号是任务的一个动作，即 Action，doLast 意味着在 Task 执行完毕后要回调 doLast 的这部分闭包的代码实现。
+// gradle -q hello，表示要执行 build.gradle 脚本中定义的名为 hello 的任务，-q 参数用于控制 gradle 输出的日志级别。
+// println 'Hello world!' 等价于 System.out.println("Hello world")

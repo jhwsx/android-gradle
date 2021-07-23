@@ -1,3 +1,4 @@
+// 2.4 JavaBean
 task helloJavaBean {
     doLast {
         Person p = new Person()

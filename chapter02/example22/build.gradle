@@ -1,3 +1,4 @@
+// 集合
 task printList {
     doLast {
         def numList = [2, 4, 6, 8, 10]
@@ -9,8 +10,15 @@ task printList {
         println numList[1..3] // 访问索引从 1 到 3 的元素，是 [4, 6, 8]
         println numList[-0]
 
+        // 迭代操作
         numList.each {
             println it
+        }
+
+        println "-----------------"
+
+        for (i in 0..<numList.size()) {
+            println numList[i]
         }
     }
 }

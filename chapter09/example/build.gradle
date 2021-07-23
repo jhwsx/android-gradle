@@ -122,14 +122,17 @@ android {
              */
             // 生成位置：build\generated\res\resValues\oppo\debug\values
             resValue('string', 'channel_tips', 'huawei 渠道，你好')
+            resValue('string', 'app_name', 'huawei example')
         }
         vivo {
             buildConfigField("String", "WEB_URL", '"https://www.vivo.com"')
             resValue('string', 'channel_tips', 'vivo 渠道，你好')
+            resValue('string', 'app_name', 'vivo example')
         }
         oppo {
             buildConfigField("String", "WEB_URL", '"https://www.oppo.com"')
             resValue('string', 'channel_tips', 'oppo 渠道，你好')
+            resValue('string', 'app_name', 'oppo example')
         }
 
 

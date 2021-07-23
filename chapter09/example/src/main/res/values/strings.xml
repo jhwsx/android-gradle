@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">example</string>
+    <!--为了使 gradle 中的多文件名生效，删除这里的 app_name-->
+<!--    <string name="app_name">example</string>-->
 </resources>

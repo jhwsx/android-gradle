@@ -18,3 +18,4 @@ tasks.create("customTask2") {
         println 'customTask2:doLast'
     }
 }
+// 运行命令：gradle -q customTask2

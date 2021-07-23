@@ -6,7 +6,7 @@ task invokeMethod {
         method1 1, 2
     }
 }
-
+// 通过 def 关键字来定义方法
 def method1(int a, int b) {
     println a + b
 }

@@ -1,15 +1,22 @@
-apply plugin: 'java'
-
 task printLog {
     doLast {
         println '输出一段日志'
-
+        // QUIET 重要消息
         logger.quiet("quiet 日志信息")
+        // ERROR 错误消息
         logger.error("error 日志信息")
+        // WARNING 警告消息
         logger.warn("warn 日志信息")
+        // LIFECYCLE 进度消息
         logger.lifecycle("lifecycle 日志信息")
+        // INFO 信息消息
         logger.info("info 日志信息")
+        // DEBUG 调试消息
         logger.debug("debug 日志信息")
     }
 
 }
+// gradle printLog          无选项             LIFECYCLE及其更高
+// gradle -q printLog       -q 或 --quiet     QUIET及其更高
+// gradle -i printLog       -i 或 --info      INFO及其更高
+// gradle -d printLog       -d 或 --debug     DEBUG及其更高，一般会输出所有的日志

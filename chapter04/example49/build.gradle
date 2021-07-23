@@ -30,15 +30,15 @@
 //        }
 //        return findByNameWithoutRules(name);
 //    }
-tasks.addRule("当任务不存在时，该规则生效") {
-    String taskName ->
-        task(taskName) {
-            doLast {
-                println "该${taskName}任务不存在，请查证后再执行"
-            }
-        }
-}
-
-task ex49RuleTask {
-    dependsOn missTask
-}
+//tasks.addRule("当任务不存在时，该规则生效") {
+//    String taskName ->
+//        task(taskName) {
+//            doLast {
+//                println "该${taskName}任务不存在，请查证后再执行"
+//            }
+//        }
+//}
+//
+//task ex49RuleTask {
+//    dependsOn missTask
+//}

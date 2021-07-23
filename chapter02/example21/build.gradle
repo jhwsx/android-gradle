@@ -1,5 +1,7 @@
+// 字符串
 task printStringClass {
     doLast {
+        // 通过 def 关键字来定义变量
         def str1 = '单引号'
         def str2 = "双引号"
 
