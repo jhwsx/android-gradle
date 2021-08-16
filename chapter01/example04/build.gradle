@@ -1,5 +1,6 @@
 task printLog {
     doLast {
+        // print 系列方法，被 Gradle 定向为 QUIET 级别的日志
         println '输出一段日志'
         // QUIET 重要消息
         logger.quiet("quiet 日志信息")
@@ -20,3 +21,8 @@ task printLog {
 // gradle -q printLog       -q 或 --quiet     QUIET及其更高
 // gradle -i printLog       -i 或 --info      INFO及其更高
 // gradle -d printLog       -d 或 --debug     DEBUG及其更高，一般会输出所有的日志
+
+// 输出错误堆栈信息，堆栈信息的输出默认是关闭的
+// 无选项  没有堆栈信息输出
+// -s 或者 -stacktrace 输出关键性的堆栈信息
+// -S 或者 -full-stacktrace 输出全部堆栈信息

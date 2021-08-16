@@ -27,9 +27,14 @@ static def eachMap(closure) {
 
 // 闭包委托
 // Groovy 的闭包有 thisObject，owner，delegate 三个属性
+// 当在闭包内调用方法时，由它们来决定使用哪个对象来处理。
+// 默认情况下 delegate 和 owner 是相等的，但是 delegate 是可以被修改的。
+// Gradle 的闭包的很多功能都是通过修改 delegate 来实现的。
 task helloDelegate {
     doLast {
        new Delegate().test {
+           // thisObject 是构建脚本的上下文，它和脚本中的this对象是相等的。
+           println "this:${this.getClass()}"
            println "thisObject:${thisObject.getClass()}"
            println "owner:${owner.getClass()}"
            println "delegate:${delegate.getClass()}"
@@ -76,7 +81,16 @@ class Person {
 
 static def person(Closure<Person> closure) {
     Person p = new Person()
+    // 我们一般会指定 delegate 为当前的 it，这样在闭包内就可以对该 it 进行配置，或者调用其方法
+    // 闭包可以设置 delegate 对象，设置 delegate 的意义就是将闭包和一个具体的对象关联起来。
     closure.delegate = p
+    // 如果闭包所在的类或闭包中和被代理的类中有相同名称的方法，到底要调用哪个方法，所以设置解析策略。
+    // 设置委托模式优先
+    // Closure.OWNER_FIRST 是默认策略。优先在 owner 寻找，owner没有再delegate
+    // Closure.DELEGATE_FIRST：优先再 delegate 寻找，delegate没有再owner
+    // Closure.OWNER_ONLY：只在owner中寻找
+    // Closure.DELEGATE_ONLY：只在delegate中寻找
+    // Closure.TO_SELF
     closure.setResolveStrategy(Closure.DELEGATE_FIRST)
     closure(p)
 }
@@ -95,5 +109,48 @@ task testClosure {
         // 如果闭包没定义参数的话，则隐含有一个参数，这个参数名字叫it，和this的作用类似。it代表闭包的参数。
         // noParamClosure.call("") // 报错
         noParamClosure.call() // OK
+    }
+}
+
+// 在闭包内部，有三个内置对象this，owner，delegate，我们可以直接用this，owner，delegate调用，或者用 get 方法：
+// getThisObject() 等同于 this
+// getOwner() 等同于 owner
+// getDelegate() 等同于 delegate
+// this 对应于定义闭包的那个类，如果在内部类中定义，指向的是内部类
+// owner 对应于定义闭包的那个类或者闭包，如果在闭包中定义，对应闭包，否则同this一致
+// delegate 默认是和owner一致，或者自定义delegate指向
+// this 永远是指定义该闭包的类，如果存在内部类，则是最内层的类，但this不是指当前闭包对象
+// owner 永远是指定义该闭包的类或者闭包，顾名思义，闭包只能定义在类中或者闭包中
+// delegate 默认是指 owner，可以自己设置。
+task hiClosure {
+    doLast {
+        new OuterClass().callInnerMethod()
+    }
+}
+
+class OuterClass {
+    class InnerClass {
+        def outerClosure = {
+            def innerClosure = {
+            }
+            printfMsg("innerClosure", innerClosure)
+            println "-------------"
+            printfMsg("outerClosure", outerClosure)
+        }
+        void printfMsg(String flag, Closure closure) {
+            def thisObject = closure.getThisObject()
+            def ownerObject = closure.getOwner()
+            def delegate = closure.getDelegate()
+            println "$flag this: ${thisObject.toString()}"
+            println "$flag owner: ${ownerObject.toString()}"
+            println "$flag delegate: ${delegate.toString()}"
+        }
+    }
+
+    def callInnerMethod() {
+        def innerClass = new InnerClass()
+        innerClass.outerClosure.call()
+        println "-------------"
+        println "outerClosure toString ${innerClass.outerClosure.toString()}"
     }
 }
