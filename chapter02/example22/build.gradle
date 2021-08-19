@@ -1,3 +1,5 @@
+import java.nio.charset.Charset
+
 // 集合
 task printList {
     doLast {
@@ -31,13 +33,67 @@ task printMap {
         println "map1['width'] = ${map1['width']}" // map1['width'] = 1024
         println "map1.height = ${map1.height}" // map1.height = 768
 
+        // each 方法的参数的闭包，传递1个参数，会被认为是 entry
         map1.each {
             println "Key: ${it.key} => Value: ${it.value}"
+        }
+
+        // each 方法的参数的闭包，传递两个参数，会被认为是 key 和 value
+        map1.each {key, value ->
+            println "$key => $value"
+        }
+
+        map1.eachWithIndex { Map.Entry<String, Integer> entry, int index ->
+            println "${index}:${entry.key}=>${entry.value}"
+        }
+
+        map1.eachWithIndex{ key, value, i ->
+            println "$i:$key=$value"
         }
 
         def entry = map1.find {
             it.value == 1024
         }
         println "entry = $entry"
+
+        def emptyMap = [:]
+        def emtpyList = []
+        println "emptyMap.getClass().name=${emptyMap.getClass().name}" // 打印：java.util.LinkedHashMap
+        println "emtpyList.getClass().name=${emtpyList.getClass().name}" // 打印：java.util.ArrayList
+    }
+}
+
+task testIO {
+    doLast {
+        def file = new File("D:\\Android\\Workspace\\android-gradle\\chapter02\\example22\\a.txt")
+        // eachLine 在  ResourceGroovyMethods 类中
+        // a closure (arg 1 is line, optional arg 2 is line number starting at line 1)
+        file.eachLine {line, lineNum ->
+            println "$lineNum ${new String(line.bytes, "utf-8")}"
+        }
+        println "======================"
+        file.eachLine {
+            println it
+        }
+
+        def url = new URL("https://mp.weixin.qq.com/s/5gYs5_xutYlkrFm9ZzaPzQ")
+        url.eachLine {line, lineNum ->
+            println "$lineNum $line"
+        }
+        def fileWriter = new FileWriter("D:\\Android\\Workspace\\android-gradle\\chapter02\\example22\\b.txt")
+        file.filterLine(fileWriter) { String line ->
+            line.contains("Hello")
+        }
+    }
+}
+
+task testXML {
+    doLast {
+        // groovy.util 下的 XmlParser
+        def xml = new XmlParser().parse(new File("D:\\Android\\Workspace\\android-gradle\\chapter02\\example22\\attrs.xml"))
+        // 访问 declare-styleable节点的name属性
+        println xml['declare-styleable'].@name[0]
+        // 访问 declare-styleable 的第三个子节点的内容
+        println xml['declare-styleable'].attr[2].text()
     }
 }

@@ -32,15 +32,15 @@ static def eachMap(closure) {
 // Gradle 的闭包的很多功能都是通过修改 delegate 来实现的。
 task helloDelegate {
     doLast {
-       new Delegate().test {
-           // thisObject 是构建脚本的上下文，它和脚本中的this对象是相等的。
-           println "this:${this.getClass()}"
-           println "thisObject:${thisObject.getClass()}"
-           println "owner:${owner.getClass()}"
-           println "delegate:${delegate.getClass()}"
-           method1()
-           it.method1()
-       }
+        new Delegate().test {
+            // thisObject 是构建脚本的上下文，它和脚本中的this对象是相等的。
+            println "this:${this.getClass()}"
+            println "thisObject:${thisObject.getClass()}"
+            println "owner:${owner.getClass()}"
+            println "delegate:${delegate.getClass()}"
+            method1()
+            it.method1()
+        }
     }
 }
 
@@ -94,10 +94,14 @@ static def person(Closure<Person> closure) {
     closure.setResolveStrategy(Closure.DELEGATE_FIRST)
     closure(p)
 }
-
-def greeting = {"Hello, $it!"}
+// 不指定参数的闭包，它有一个隐含的参数 it
+def greeting = { "Hello, $it!" }
 // 没有参数的闭包
 def noParamClosure = { -> true }
+// 多个参数不带参数类型的闭包
+def multiParamWithoutTypeClosure = { a, b -> a + b }
+// 多个参数带类型参数的闭包
+def multiParamWithTypeClosure = { int a, int b -> a + b }
 
 task testClosure {
     doLast {
@@ -109,6 +113,9 @@ task testClosure {
         // 如果闭包没定义参数的话，则隐含有一个参数，这个参数名字叫it，和this的作用类似。it代表闭包的参数。
         // noParamClosure.call("") // 报错
         noParamClosure.call() // OK
+        println multiParamWithoutTypeClosure.call(1, 2)
+        println multiParamWithoutTypeClosure.call("hello", 1)
+        println multiParamWithTypeClosure.call(100, 200)
     }
 }
 
@@ -137,6 +144,7 @@ class OuterClass {
             println "-------------"
             printfMsg("outerClosure", outerClosure)
         }
+
         void printfMsg(String flag, Closure closure) {
             def thisObject = closure.getThisObject()
             def ownerObject = closure.getOwner()
