@@ -1,3 +1,5 @@
+import java.time.format.ResolverStyle
+
 // 2.5 闭包
 task helloClosure {
     doLast {
@@ -162,3 +164,145 @@ class OuterClass {
         println "outerClosure toString ${innerClass.outerClosure.toString()}"
     }
 }
+
+/*
+task hiClosure 打印结果：
+innerClosure this: OuterClass$InnerClass@3e7371cd
+innerClosure owner: OuterClass$InnerClass$_closure1@25d55df8
+innerClosure delegate: OuterClass$InnerClass$_closure1@25d55df8
+-------------
+outerClosure this: OuterClass$InnerClass@3e7371cd
+outerClosure owner: OuterClass$InnerClass@3e7371cd
+outerClosure delegate: OuterClass$InnerClass@3e7371cd
+-------------
+outerClosure toString OuterClass$InnerClass$_closure1@25d55df8
+ */
+
+task delegateDemo {
+    doLast {
+        with {
+            name = "Birdy"
+            age = 18
+            p()
+            fly()
+        }
+    }
+}
+
+static def with(Closure<Person> closure) {
+    Bird b = new Bird()
+    closure.delegate = b
+    closure.setResolveStrategy(Closure.DELEGATE_ONLY)
+    closure.call()
+}
+
+class Bird {
+    String name;
+    int age;
+
+    void fly() {
+        println "fly()"
+    }
+
+    void p() {
+        println toString()
+    }
+
+
+    @Override
+    String toString() {
+        return "Bird{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
+task androidClosure {
+    doLast {
+        android {
+            compileSdkVersion  29
+            buildToolsVersion '28.0.0'
+            defaultConfig {
+                minSdkVersion  15
+                targetSdkVersion  29
+                versionCode = 100
+                versionName = '1.0.0'
+            }
+            output()
+        }
+    }
+}
+
+class Android {
+    int compileSdkVersion
+    String buildToolsVersion
+    DefaultConfig defaultConfig = new DefaultConfig()
+
+    void compileSdkVersion(int compileSdkVersion) {
+        this.compileSdkVersion = compileSdkVersion
+    }
+
+    void buildToolsVersion(String buildToolsVersion) {
+        this.buildToolsVersion = buildToolsVersion
+    }
+
+    void defaultConfig(Closure<DefaultConfig> closure) {
+        closure.delegate = defaultConfig
+        closure.setResolveStrategy(Closure.DELEGATE_ONLY)
+        closure(defaultConfig)
+    }
+
+    void output() {
+        println toString()
+    }
+    @Override
+    String toString() {
+        return "Android{" +
+                "compileSdkVersion=" + compileSdkVersion +
+                ", buildToolsVersion='" + buildToolsVersion + '\'' +
+                ", defaultConfig=" + defaultConfig +
+                '}';
+    }
+}
+
+static void android(Closure<Android> closure) {
+    Android android = new Android()
+    closure.delegate = android
+    closure.setResolveStrategy(Closure.DELEGATE_ONLY)
+    closure(android)
+}
+
+class DefaultConfig {
+    int minSdkVersion
+    int targetSdkVersion
+    int versionCode
+    String versionName
+
+    void minSdkVersion(int minSdkVersion) {
+        this.minSdkVersion = minSdkVersion
+    }
+
+    void targetSdkVersion(int targetSdkVersion) {
+        this.targetSdkVersion = targetSdkVersion
+    }
+
+    void versionCode(int versionCode) {
+        this.versionCode = versionCode
+    }
+
+    void versionName(String versionName) {
+        this.versionName = versionName
+    }
+
+    @Override
+    String toString() {
+        return "DefaultConfig{" +
+                "minSdkVersion=" + minSdkVersion +
+                ", targetSdkVersion=" + targetSdkVersion +
+                ", versionCode=" + versionCode +
+                ", versionName='" + versionName + '\'' +
+                '}';
+    }
+}
+
