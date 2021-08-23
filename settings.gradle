@@ -1,6 +1,7 @@
 // settings.gradle 是设置文件，用于初始化以及工程树的配置。settings.gradle 是默认名字。
 rootProject.name = 'android-gradle'
 // chapter01
+// 一个子工程只有在 Settings 文件里配置了 Gradle 才会识别，才会在构建的时候被包含进去。
 include ':example02' // 包含子工程
 project(':example02').projectDir = new File(rootDir, 'chapter01/example02') // 给子工程指定相应的目录
 include ':example03'

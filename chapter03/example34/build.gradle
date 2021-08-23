@@ -19,3 +19,20 @@ tasks.create("customTask2") {
     }
 }
 // 运行命令：gradle -q customTask2
+
+
+class GreetingTask extends DefaultTask {
+    String message = "world"
+
+    @TaskAction
+    def greetings() {
+        println "Hello, $message!"
+    }
+}
+
+// 通过 @TaskAction 指定一个 Task 执行时要做的事情
+task greeting(type: GreetingTask)
+
+task greeting2(type: GreetingTask) {
+    message = "Gradle"
+}
