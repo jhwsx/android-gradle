@@ -20,6 +20,7 @@ task ex36World {
 ex36Hello.dependsOn('ex36World')
 
 ex36Hello.doLast {
+    // 检查 project 是否有 ex36Hello 这个属性
     println project.hasProperty('ex36Hello') // 每一个任务都是 Project 的一个属性。
     println project.depth
     println 'doLast2'
@@ -35,3 +36,5 @@ ex36Hello.doLast {
  doLast2
 
  */
+// 先执行 ex36World，打印 world；再执行 ex36Hello，打印 doFirst 的 doFirst，再执行 doLast 的 doLast1，
+// 再执行另外一个 doLast 的 true，2，doLast2

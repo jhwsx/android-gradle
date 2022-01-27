@@ -15,10 +15,12 @@ include ':example22'
 project(':example22').projectDir = new File(rootDir, 'chapter02/example22')
 include ':example23'
 project(':example23').projectDir = new File(rootDir, 'chapter02/example23')
+// 这种方式允许我们把工程放在任何目录下，只要在这里指定出路径就可以了。
 include ':example24'
 project(':example24').projectDir = new File(rootDir, 'chapter02/example24')
 //include ':example25'
 //project(':example25').projectDir = new File(rootDir, 'chapter02/example25')
+// 这种方式只能引用本项目里的工程
 include ':chapter02:example25'
 // chapter03
 include ':chapter03:example34'

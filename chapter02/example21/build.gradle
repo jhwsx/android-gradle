@@ -19,3 +19,8 @@ task printStringVar {
         println "双引号里能进行变量计算：${name}"
     }
 }
+
+
+task(wangzhichao).doLast {
+    println "Keep studying and practicing"
+}

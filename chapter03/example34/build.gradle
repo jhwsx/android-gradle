@@ -1,4 +1,5 @@
 // Project.java 的注释多读一读。
+// https://docs.gradle.org/current/javadoc/org/gradle/api/Project.html
 // 3.4 创建一个任务
 task customTask1 {
     doFirst {
@@ -20,19 +21,46 @@ tasks.create("customTask2") {
 }
 // 运行命令：gradle -q customTask2
 
-
+// 自定义 Task
 class GreetingTask extends DefaultTask {
     String message = "world"
 
     @TaskAction
     def greetings() {
         println "Hello, $message!"
+//        def name = tasks.getByName("customTask2")
+//        println "name=" + name
+    }
+
+    @TaskAction
+    def byes() {
+        println "Bye, $message"
     }
 }
 
 // 通过 @TaskAction 指定一个 Task 执行时要做的事情
 task greeting(type: GreetingTask)
-
+/*
+Hello, world!
+Bye, world
+ */
 task greeting2(type: GreetingTask) {
     message = "Gradle"
+}
+/*
+Hello, Gradle!
+Bye, Gradle
+ */
+
+// 系统默认的 Task，如 Copy，Delete
+task copyImage(type: Copy) {
+    from "/build1"
+    into "/build2"
+    include "*.png" // 包含拷贝的文件
+    exclude "*.txt" // 排除拷贝的文件
+    rename("img.png", "apkbuild.png") // 重命名文件
+}
+
+task deleteImage(type: Delete) {
+    delete "/build2"
 }

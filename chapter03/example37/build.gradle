@@ -46,3 +46,13 @@ task ex37CustomProperty {
         println "${rootProject.versionName}"
     }
 }
+/*
+age is: 18
+phone is: 10086
+address is: shanghai
+versionName is: 1.1.0
+versionCode is: 1
+main 的 resourcesDir 是：main/res, flag 是 true
+test 的 resourcesDir 是：test/res, flag 是 false
+1.1.0
+ */

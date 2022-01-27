@@ -180,7 +180,7 @@ outerClosure toString OuterClass$InnerClass$_closure1@25d55df8
 
 task delegateDemo {
     doLast {
-        with {
+        mywith {
             name = "Birdy"
             age = 18
             p()
@@ -189,7 +189,7 @@ task delegateDemo {
     }
 }
 
-static def with(Closure<Person> closure) {
+static def mywith(Closure<Person> closure) {
     Bird b = new Bird()
     closure.delegate = b
     closure.setResolveStrategy(Closure.DELEGATE_ONLY)
