@@ -16,3 +16,32 @@ task ex46OrderTask2 {
 // 测试命令：
 // 打开上面两行中的一个
 // wangzhichao@wangzhichao:~/IDEAProjects/android-gradle/chapter04/example46$ gradle -q ex46OrderTask1 ex46OrderTask2
+
+task ex46UnitTestTask {
+    doLast {
+        Thread.sleep(2000L)
+        println "单元测试"
+    }
+}
+
+tasks.create("ex46IntegrationTestTask") {
+    doLast {
+        Thread.sleep(3000L)
+        println "集成测试"
+    }
+}
+
+task ex46PackageTask {
+    doLast {
+        Thread.sleep(1000L)
+        println "打包"
+    }
+}
+
+task ex46PublishTask {
+    doLast {
+        println "发布"
+    }
+}
+// TODO 顺序打印了多次都不会乱？
+// D:\Android\Workspace\android-gradle\chapter04\example46>gradle ex46UnitTestTask ex46IntegrationTestTask ex46PackageTask ex46PublishTask

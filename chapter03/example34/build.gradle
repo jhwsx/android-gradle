@@ -39,12 +39,12 @@ class GreetingTask extends DefaultTask {
 }
 
 // 通过 @TaskAction 指定一个 Task 执行时要做的事情
-task greeting(type: GreetingTask)
+task greeting(type: GreetingTask) // type 表示基于一个存在的 Task 来创建
 /*
 Hello, world!
 Bye, world
  */
-task greeting2(type: GreetingTask) {
+task greeting2(type: GreetingTask) { // 闭包里的委托对象就是 GreetingTask 了。
     message = "Gradle"
 }
 /*

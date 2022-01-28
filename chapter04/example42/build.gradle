@@ -35,6 +35,63 @@ tasks['ex42AccessTask4'].doLast {
 //    println tasks.getByName(":chapter04:example42:ex42AccessTask4") // 找不到报错，通过名字访问，参数值不可以是路径
 //    println tasks.findByName("c") // 找不到返回 null
 //    println tasks.getByName("c") // 找不到抛出 UnknownTaskException
+    println tasks.findByName("properties")
 }
 
+// 打印 tasks 里所有的 task
+task printTasks {
+    doLast {
+        tasks.each {
+            println "$it"
+        }
+    }
+}
+/*
+task ':chapter04:example42:ex42AccessTask4'
+task ':chapter04:example42:ex42AccessTask4'
+task ':chapter04:example42:ex42AccessTask4'
+task ':chapter04:example42:ex42AccessTask4'
+null
+task ':chapter04:example42:properties'
+D:\Android\Workspace\android-gradle\chapter04\example42>gradle -q printTasks
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file 'D:\Android\Workspace\android-gradle\chapter04\example42\build.gradle' line: 42
+
+* What went wrong:
+A problem occurred evaluating project ':chapter04:example42'.
+> Could not get unknown property 'printTasks' for project ':chapter04:example42' of type org.gradle.api.Project.
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+BUILD FAILED in 1s
+
+D:\Android\Workspace\android-gradle\chapter04\example42>gralde -q printTasks
+'gralde' 不是内部或外部命令，也不是可运行的程序
+或批处理文件。
+
+D:\Android\Workspace\android-gradle\chapter04\example42>gradle -q printTasks
+task ':chapter04:example42:buildEnvironment'
+task ':chapter04:example42:components'
+task ':chapter04:example42:dependencies'
+task ':chapter04:example42:dependencyInsight'
+task ':chapter04:example42:dependentComponents'
+task ':chapter04:example42:ex42AccessTask1'
+task ':chapter04:example42:ex42AccessTask2'
+task ':chapter04:example42:ex42AccessTask3'
+task ':chapter04:example42:ex42AccessTask4'
+task ':chapter04:example42:help'
+task ':chapter04:example42:javaToolchains'
+task ':chapter04:example42:model'
+task ':chapter04:example42:outgoingVariants'
+task ':chapter04:example42:printTasks'
+task ':chapter04:example42:projects'
+task ':chapter04:example42:properties'
+task ':chapter04:example42:tasks'
+ */
 

@@ -1,8 +1,8 @@
-// 4.8 任务的 onlyIf 断言
+// 4.8 任务的 onlyIf 断言：接收一个闭包作为参数，如果该闭包返回 true 则该任务执行，否则跳过。
 final String BUILD_APPS_ALL = "all"
 final String BUILD_APPS_SHOUFA = "shoufa"
 final String BUILD_APPS_EXCLUDE_SHOUFA = "exclude_shoufa"
-
+final String PROPERTY_BUILD_APPS = "build_apps"
 task ex48QQRelease {
     doLast {
         println "打应用宝的包"
@@ -36,8 +36,8 @@ build.dependsOn ex48QQRelease, ex48BaiduRelease, ex48HuaweiRelease, ex48XiaomiRe
 
 ex48QQRelease.onlyIf {
     def execute
-    if (project.hasProperty("build_apps")) {
-        Object buildApps = project.property("build_apps")
+    if (project.hasProperty(PROPERTY_BUILD_APPS)) {
+        Object buildApps = project.property(PROPERTY_BUILD_APPS)
         if (BUILD_APPS_SHOUFA.equals(buildApps)
                 || BUILD_APPS_ALL.equals(buildApps)) {
             execute = true
@@ -52,8 +52,8 @@ ex48QQRelease.onlyIf {
 
 ex48BaiduRelease.onlyIf {
     def execute
-    if (project.hasProperty("build_apps")) {
-        Object buildApps = project.property("build_apps")
+    if (project.hasProperty(PROPERTY_BUILD_APPS)) {
+        Object buildApps = project.property(PROPERTY_BUILD_APPS)
         if (BUILD_APPS_SHOUFA.equals(buildApps)
                 || BUILD_APPS_ALL.equals(buildApps)) {
             execute = true
@@ -68,8 +68,8 @@ ex48BaiduRelease.onlyIf {
 
 ex48HuaweiRelease.onlyIf {
     def execute
-    if (project.hasProperty("build_apps")) {
-        Object buildApps = project.property("build_apps")
+    if (project.hasProperty(PROPERTY_BUILD_APPS)) {
+        Object buildApps = project.property(PROPERTY_BUILD_APPS)
         if (BUILD_APPS_EXCLUDE_SHOUFA.equals(buildApps)
                 || BUILD_APPS_ALL.equals(buildApps)) {
             execute = true
@@ -84,8 +84,8 @@ ex48HuaweiRelease.onlyIf {
 
 ex48XiaomiRelease.onlyIf {
     def execute
-    if (project.hasProperty("build_apps")) {
-        Object buildApps = project.property("build_apps")
+    if (project.hasProperty(PROPERTY_BUILD_APPS)) {
+        Object buildApps = project.property(PROPERTY_BUILD_APPS)
         if (BUILD_APPS_EXCLUDE_SHOUFA.equals(buildApps)
                 || BUILD_APPS_ALL.equals(buildApps)) {
             execute = true

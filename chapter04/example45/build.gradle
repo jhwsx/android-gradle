@@ -16,7 +16,7 @@
 //        }
 //        getTaskActions().add(0, wrap(action));
 //    }
-// 插入到 actions 集合里面。TODO 为什么是这个方法呢？
+// 插入到 actions 集合里面。 为什么是这个方法呢？通过打印看到的。
 // doFirst 就是把 action 放在 actions 集合的最前面
 // @Override
 //    public Task doFirst(final String actionName, final Action<? super Task> action) {
@@ -56,9 +56,21 @@ myTask.doLast {
 }
 
 class CustomTask extends DefaultTask {
+    @Override
+    void prependParallelSafeAction(Action<? super Task> action) {
+        super.prependParallelSafeAction(action)
+        println "prependParallelSafeAction called"
+    }
     @TaskAction
     // @TaskAction 注解表示该方法就是 Task 本身执行要执行的方法。
     def doSelf() {
         println 'Task 本身在执行 in doLast'
     }
 }
+/*
+打印：
+prependParallelSafeAction called
+Task 执行之前执行 in doFirst
+Task 本身在执行 in doLast
+Task 执行之后执行 in doLast
+ */
