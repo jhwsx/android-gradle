@@ -85,16 +85,52 @@ static def person(Closure<Person> closure) {
     Person p = new Person()
     // 我们一般会指定 delegate 为当前的 it，这样在闭包内就可以对该 it 进行配置，或者调用其方法
     // 闭包可以设置 delegate 对象，设置 delegate 的意义就是将闭包和一个具体的对象关联起来。
+    // 这样在闭包中就可以访问被代理对象的属性和方法了。
     closure.delegate = p
     // 如果闭包所在的类或闭包中和被代理的类中有相同名称的方法，到底要调用哪个方法，所以设置解析策略。
-    // 设置委托模式优先
     // Closure.OWNER_FIRST 是默认策略。优先在 owner 寻找，owner没有再delegate
     // Closure.DELEGATE_FIRST：优先再 delegate 寻找，delegate没有再owner
     // Closure.OWNER_ONLY：只在owner中寻找
     // Closure.DELEGATE_ONLY：只在delegate中寻找
     // Closure.TO_SELF
-    closure.setResolveStrategy(Closure.DELEGATE_FIRST)
+    closure.setResolveStrategy(Closure.DELEGATE_FIRST) // 设置委托模式优先
     closure(p)
+}
+task testResolveStrategy {
+    doLast {
+        new Test().run(DELEGATE_FIRST, "DELEGATE_FIRST")
+        new Test().run(OWNER_FIRST, "OWNER_FIRST")
+        new Test().run(OWNER_ONLY, "OWNER_ONLY")
+        new Test().run(DELEGATE_ONLY, "DELEGATE_ONLY")
+//        new Test().run(TO_SELF, "TO_SELF")
+    }
+}
+
+class Test {
+    def x = 30
+    def y = 40
+
+    def run(int strategy, String strategyName) {
+        def data = new TestB()
+        def cl = { y = x + y } // 这是一个闭包对象
+        cl.delegate = data // 把闭包对象和一个具体的对象（data）关联起来
+        cl.resolveStrategy = strategy
+        cl() // 执行闭包对象
+        println strategyName
+        println x
+        println y
+        println data
+    }
+
+    class TestB {
+        def x = 1
+        def y = 2
+
+        @Override
+        String toString() {
+            return "TestB{x = " + x + ", y = " + y + "}"
+        }
+    }
 }
 // 不指定参数的闭包，它有一个隐含的参数 it
 def greeting = { "Hello, $it!" }
@@ -121,6 +157,8 @@ task testClosure {
     }
 }
 
+// 理解闭包内this，owner，delegate对象
+// 参考：https://mp.weixin.qq.com/s/MjrHHMzayEwEs6qX0sxb6g
 // 在闭包内部，有三个内置对象this，owner，delegate，我们可以直接用this，owner，delegate调用，或者用 get 方法：
 // getThisObject() 等同于 this
 // getOwner() 等同于 owner
@@ -138,7 +176,9 @@ task hiClosure {
 }
 
 class OuterClass {
+    // 内部类
     class InnerClass {
+        // outerClosure 是 InnerClass 的成员变量
         def outerClosure = {
             def innerClosure = {
             }
@@ -146,7 +186,7 @@ class OuterClass {
             println "-------------"
             printfMsg("outerClosure", outerClosure)
         }
-
+        // printfMsg 是 InnerClass 的成员方法
         void printfMsg(String flag, Closure closure) {
             def thisObject = closure.getThisObject()
             def ownerObject = closure.getOwner()
@@ -156,10 +196,10 @@ class OuterClass {
             println "$flag delegate: ${delegate.toString()}"
         }
     }
-
+    // callInnerMethod 是 OuterClass 的成员方法
     def callInnerMethod() {
         def innerClass = new InnerClass()
-        innerClass.outerClosure.call()
+        innerClass.outerClosure.call() // 执行 outerClosure 这个闭包对象
         println "-------------"
         println "outerClosure toString ${innerClass.outerClosure.toString()}"
     }
@@ -167,13 +207,13 @@ class OuterClass {
 
 /*
 task hiClosure 打印结果：
-innerClosure this: OuterClass$InnerClass@3e7371cd
-innerClosure owner: OuterClass$InnerClass$_closure1@25d55df8
-innerClosure delegate: OuterClass$InnerClass$_closure1@25d55df8
+innerClosure this: OuterClass$InnerClass@3e7371cd // 等于内部类 InnerClass 对象
+innerClosure owner: OuterClass$InnerClass$_closure1@25d55df8 // 等于 outerClosure 对象
+innerClosure delegate: OuterClass$InnerClass$_closure1@25d55df8 // 默认和 owner 一致的指向
 -------------
-outerClosure this: OuterClass$InnerClass@3e7371cd
-outerClosure owner: OuterClass$InnerClass@3e7371cd
-outerClosure delegate: OuterClass$InnerClass@3e7371cd
+outerClosure this: OuterClass$InnerClass@3e7371cd // 等于内部类 InnerClass 对象
+outerClosure owner: OuterClass$InnerClass@3e7371cd // 等于内部类 InnerClass 对象
+outerClosure delegate: OuterClass$InnerClass@3e7371cd // 默认和 owner 一致的指向
 -------------
 outerClosure toString OuterClass$InnerClass$_closure1@25d55df8
  */
@@ -217,40 +257,40 @@ class Bird {
                 '}';
     }
 }
-
+// 仿照Android DSL 定义闭包
 task androidClosure {
     doLast {
-        android {
-            compileSdkVersion  29
-            buildToolsVersion '28.0.0'
-            defaultConfig {
-                minSdkVersion  15
-                targetSdkVersion  29
-                versionCode = 100
-                versionName = '1.0.0'
+        android1 {
+            compileSdkVersion1  29
+            buildToolsVersion1 '28.0.0'
+            defaultConfig1 {
+                minSdkVersion1  15
+                targetSdkVersion1  29
+                versionCode1 = 100
+                versionName1 = '1.0.0'
             }
             output()
         }
     }
 }
 
-class Android {
-    int compileSdkVersion
-    String buildToolsVersion
-    DefaultConfig defaultConfig = new DefaultConfig()
+class Android1 {
+    int compileSdkVersion1
+    String buildToolsVersion1
+    DefaultConfig1 defaultConfig1 = new DefaultConfig1()
 
-    void compileSdkVersion(int compileSdkVersion) {
-        this.compileSdkVersion = compileSdkVersion
+    void compileSdkVersion1(int compileSdkVersion) {
+        this.compileSdkVersion1 = compileSdkVersion
     }
 
-    void buildToolsVersion(String buildToolsVersion) {
-        this.buildToolsVersion = buildToolsVersion
+    void buildToolsVersion1(String buildToolsVersion) {
+        this.buildToolsVersion1 = buildToolsVersion
     }
 
-    void defaultConfig(Closure<DefaultConfig> closure) {
-        closure.delegate = defaultConfig
+    void defaultConfig1(Closure<DefaultConfig1> closure) {
+        closure.delegate = defaultConfig1
         closure.setResolveStrategy(Closure.DELEGATE_ONLY)
-        closure(defaultConfig)
+        closure(defaultConfig1)
     }
 
     void output() {
@@ -258,50 +298,50 @@ class Android {
     }
     @Override
     String toString() {
-        return "Android{" +
-                "compileSdkVersion=" + compileSdkVersion +
-                ", buildToolsVersion='" + buildToolsVersion + '\'' +
-                ", defaultConfig=" + defaultConfig +
+        return "Android1{" +
+                "compileSdkVersion1=" + compileSdkVersion1 +
+                ", buildToolsVersion1='" + buildToolsVersion1 + '\'' +
+                ", defaultConfig1=" + defaultConfig1 +
                 '}';
     }
 }
 
-static void android(Closure<Android> closure) {
-    Android android = new Android()
+static void android1(Closure<Android1> closure) {
+    Android1 android = new Android1()
     closure.delegate = android
     closure.setResolveStrategy(Closure.DELEGATE_ONLY)
     closure(android)
 }
 
-class DefaultConfig {
-    int minSdkVersion
-    int targetSdkVersion
-    int versionCode
-    String versionName
+class DefaultConfig1 {
+    int minSdkVersion1
+    int targetSdkVersion1
+    int versionCode1
+    String versionName1
 
-    void minSdkVersion(int minSdkVersion) {
-        this.minSdkVersion = minSdkVersion
+    void minSdkVersion1(int minSdkVersion) {
+        this.minSdkVersion1 = minSdkVersion
     }
 
-    void targetSdkVersion(int targetSdkVersion) {
-        this.targetSdkVersion = targetSdkVersion
+    void targetSdkVersion1(int targetSdkVersion) {
+        this.targetSdkVersion1 = targetSdkVersion
     }
 
-    void versionCode(int versionCode) {
-        this.versionCode = versionCode
+    void versionCode1(int versionCode) {
+        this.versionCode1 = versionCode
     }
 
-    void versionName(String versionName) {
-        this.versionName = versionName
+    void versionName1(String versionName) {
+        this.versionName1 = versionName
     }
 
     @Override
     String toString() {
-        return "DefaultConfig{" +
-                "minSdkVersion=" + minSdkVersion +
-                ", targetSdkVersion=" + targetSdkVersion +
-                ", versionCode=" + versionCode +
-                ", versionName='" + versionName + '\'' +
+        return "DefaultConfig1{" +
+                "minSdkVersion1=" + minSdkVersion1 +
+                ", targetSdkVersion1=" + targetSdkVersion1 +
+                ", versionCode1=" + versionCode1+
+                ", versionName1='" + versionName1 + '\'' +
                 '}';
     }
 }
