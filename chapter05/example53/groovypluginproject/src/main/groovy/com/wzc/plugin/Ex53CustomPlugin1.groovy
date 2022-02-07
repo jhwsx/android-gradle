@@ -9,7 +9,7 @@ class Ex53CustomPlugin1 implements Plugin<Project> {
     void apply(Project project) {
         project.task('ex53CustomTask1') {
             doLast {
-                println "这是一个通过自定义插件方式创建的任务..."
+                println "这是一个通过自定义插件方式创建的任务!!!"
             }
         }
     }

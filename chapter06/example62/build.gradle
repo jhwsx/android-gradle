@@ -1,8 +1,8 @@
 apply plugin:'java'
-
+// 6.2 Java 插件约定的项目结构
 repositories {
     // 仓库的位置
-    mavenCentral()
+    mavenCentral() // Maven中心库
 }
 // 指定不同的源代码集合
 sourceSets {
@@ -33,6 +33,11 @@ sourceSets {
 
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 dependencies {
     // group, name, version 合起来才标记一个唯一的构件
     // 这种是 map notation
@@ -46,4 +51,5 @@ dependencies {
 
 
 }
+
 

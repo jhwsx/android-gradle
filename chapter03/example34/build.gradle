@@ -19,6 +19,15 @@ tasks.create("customTask2") {
         println 'customTask2:doLast'
     }
 }
+
+tasks.register("customTask3") {
+    doFirst {
+        println "customTask3:doFirst"
+    }
+    doLast {
+        println "customTask3:doLast"
+    }
+}
 // 运行命令：gradle -q customTask2
 
 // 自定义 Task
@@ -64,3 +73,22 @@ task copyImage(type: Copy) {
 task deleteImage(type: Delete) {
     delete "/build2"
 }
+// 灵活的任务注册
+4.times { counter->
+    tasks.register("task_$counter") {
+        doLast {
+            println "I'm task number $counter"
+        }
+    }
+}
+/*
+>gradle -q task_0
+I'm task number 0
+>gradle -q task_1
+I'm task number 1
+>gradle -q task_2
+I'm task number 2
+>gradle -q task_3
+I'm task number 3
+
+ */

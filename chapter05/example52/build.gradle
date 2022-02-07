@@ -5,7 +5,7 @@
 // 4,二进制插件一般是被打包一个 jar 里独立发布的。
 // 5,第三方发布的作为 jar 的二进制插件，必须要在 buildscript{} 里配置其 classpath 才能使用，比如 Android Gradle
 // 插件就属于 Android 发布的第三方插件。buildscript{} 块是一个在构建项目之前，为项目进行前期准备和初始化相关配置依赖
-// 的地方。
+// 的地方。如果插件托管在插件网站：https://plugins.gradle.org/ 上，就不用在 buildscript 里面配置 classpath 依赖了
 // 5.2.1 应用二进制插件
 apply plugin: 'java' // java 就是 Java 插件的 plugin id，它是唯一的。
 // 等价于
@@ -14,22 +14,29 @@ apply plugin: org.gradle.api.plugins.JavaPlugin
 apply plugin: JavaPlugin // 因为包 org.gradle.api.plugins 是默认导入的。
 
 // 5.2.2 应用脚本插件
-apply from: 'version.gradle' // from 是一个关键字
+apply from: 'version.gradle' // from 是一个关键字，后面紧跟一个脚本文件，可以是本地的，也可以是网络存在的（使用一个 url）
+apply from: 'util.gradle'
 task ex52PrintlnTask {
     doLast {
-        println "App 版本是：${versionName},版本号是：${versionCode}"
+        println "App 版本是：${versionName},版本号是：${versionCode},构建时间是：${buildTime},作者是：${author}"
     }
 }
 
-// 闭包的方式：
+// 使用闭包的方式：
 //apply {
 //    plugin 'java'
 //}
+
+// 使用 Action 的方式：
+//apply(new Action<ObjectConfigurationAction>() {
+//    @Override
+//    void execute(ObjectConfigurationAction objectConfigurationAction) {
+//        objectConfigurationAction.plugin("java")
+//    }
+//})
 
 // 使用 plugins DSL 应用插件
 //plugins {
 //    id 'java'
 //}
-
-// 插件网站：https://plugins.gradle.org/
 

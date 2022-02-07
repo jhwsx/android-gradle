@@ -1,5 +1,5 @@
 apply plugin:'java'
-
+// 6.3 如何配置第三方依赖
 repositories {
     // 仓库的位置
     mavenCentral()

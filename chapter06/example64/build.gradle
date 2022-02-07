@@ -1,5 +1,12 @@
 apply plugin:'java'
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+// 6.4 如何构建一个 Java 项目
+// 在 Gradle 中，执行任何操作都是任务驱动的。
 // build 会编译代码文件，处理资源文件，打成 jar 包，然后编译测试用例代码，处理测试资源，最后运行单元测试。
+// 点击 Gradle -> chapter06 -> example64 -> tasks -> build -> build.
 //> Task :chapter06:example64:compileJava UP-TO-DATE
 //> Task :chapter06:example64:processResources NO-SOURCE
 //> Task :chapter06:example64:classes UP-TO-DATE
@@ -31,3 +38,9 @@ apply plugin:'java'
 //> Task :chapter06:example64:testClasses
 //> Task :chapter06:example64:test
 //> Task :chapter06:example64:check
+
+// javadoc 任务，生成 Java 格式的 doc api 文档
+//> Task :chapter06:example64:compileJava
+//> Task :chapter06:example64:processResources NO-SOURCE
+//> Task :chapter06:example64:classes
+//> Task :chapter06:example64:javadoc

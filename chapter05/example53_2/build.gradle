@@ -5,3 +5,9 @@ buildscript {
 }
 
 apply plugin: 'com.wzc.plugin.ex53customplugin'
+
+/*
+D:\Android\Workspace\android-gradle\chapter05\example53_2>gradle -q ex53CustomTask1
+prependParallelSafeAction called
+这是一个通过自定义插件方式创建的任务!!!
+ */

@@ -1,8 +1,23 @@
 apply plugin: 'java'
 
+// 发布一个 Jar 构件
 task publishJar(type: Jar)
 
+group "com.wzc.example69"
+version "1.0.0"
 artifacts {
     archives publishJar
 }
-// TODO 这一节不是很理解。
+
+//uploadArchives {
+//    repositories {
+//        // 发布到当前项目的 libs 目录里
+//        flatDir {
+//            name "libs"
+//            dirs "$projectDir/libs"
+//        }
+//        // 发布到本地的 maven 库，即当前用户目录的 .m2/repository 下
+//        mavenLocal()
+//    }
+//}
+// TODO 这一节不是很理解，为什么解开 uploadArchives，使用 gradle uploadArchives会报错，而直接点击 uploadArchives 左侧的绿色三角运行不会报错？

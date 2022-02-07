@@ -1,6 +1,8 @@
 plugins {
     id 'java'
 }
+// 6.5 源码集合 [SourceSets] 概念
+// SourceSet 源代码集合，源集，是 Java 插件用来描述和管理源代码及其资源的一个抽象概念。
 // sourceSets {} 闭包配置的都是 SourceSet 对象。
 // sourceSets 是一个 SourceSetContainer。
 sourceSets {

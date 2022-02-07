@@ -39,3 +39,38 @@ task ex35MultiTask {
  * world
  * multiTask
  */
+// 被依赖的 task 不需要先存在
+tasks.register("taskX") {
+    dependsOn "taskY" // taskY 还没有创建，就可以创建依赖了。
+    doLast {
+        println "taskX"
+    }
+}
+
+tasks.register("taskY") {
+    doLast {
+        println "taskY"
+    }
+}
+/*
+>gradle -q taskX
+taskY
+taskX
+ */
+// 动态添加依赖
+4.times { counter->
+    tasks.register("task$counter$counter") {
+        doLast {
+            println "I'm task number $counter$counter"
+        }
+    }
+}
+tasks.named("task00") {
+    dependsOn("task22", "task33")
+}
+/*
+>gradle -q task00
+I'm task number 22
+I'm task number 33
+I'm task number 00
+ */

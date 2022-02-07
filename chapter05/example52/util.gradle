@@ -1,0 +1,14 @@
+static def getBuildTime() {
+    def date = new Date()
+    def formattedDate = date.format("yyyy-MM-dd-HHmmss", TimeZone.getTimeZone("GMT+08"))
+    return formattedDate
+}
+
+static def author() {
+    return "wangzhichao"
+}
+// https://cloud.tencent.com/developer/article/1160024
+ext {
+    buildTime = getBuildTime()
+    author = author()
+}

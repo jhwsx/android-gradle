@@ -47,34 +47,6 @@ task printTasks {
     }
 }
 /*
-task ':chapter04:example42:ex42AccessTask4'
-task ':chapter04:example42:ex42AccessTask4'
-task ':chapter04:example42:ex42AccessTask4'
-task ':chapter04:example42:ex42AccessTask4'
-null
-task ':chapter04:example42:properties'
-D:\Android\Workspace\android-gradle\chapter04\example42>gradle -q printTasks
-
-FAILURE: Build failed with an exception.
-
-* Where:
-Build file 'D:\Android\Workspace\android-gradle\chapter04\example42\build.gradle' line: 42
-
-* What went wrong:
-A problem occurred evaluating project ':chapter04:example42'.
-> Could not get unknown property 'printTasks' for project ':chapter04:example42' of type org.gradle.api.Project.
-
-* Try:
-Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
-
-* Get more help at https://help.gradle.org
-
-BUILD FAILED in 1s
-
-D:\Android\Workspace\android-gradle\chapter04\example42>gralde -q printTasks
-'gralde' 不是内部或外部命令，也不是可运行的程序
-或批处理文件。
-
 D:\Android\Workspace\android-gradle\chapter04\example42>gradle -q printTasks
 task ':chapter04:example42:buildEnvironment'
 task ':chapter04:example42:components'
