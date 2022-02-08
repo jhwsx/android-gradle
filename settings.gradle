@@ -51,6 +51,7 @@ include ':chapter06:example68:app'
 include ':chapter06:example68:base'
 include ':chapter06:example69'
 include ':chapter06:example610'
+include ':chapter06:example_classpath'
 // chapter07 Android Gradle 插件
 include ':chapter07:example73'
 include ':chapter07:example74'

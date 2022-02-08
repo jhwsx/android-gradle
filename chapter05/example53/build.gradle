@@ -1,5 +1,7 @@
 // 5.3 自定义插件
 // 在 build 脚本文件里面定义的插件，只能给自己的项目使用
+//apply ([plugin: Ex53CustomPlugin]) // 等价于下面一行
+//apply (plugin: Ex53CustomPlugin) // 等价于下面一行
 apply plugin: Ex53CustomPlugin
 class Ex53CustomPlugin implements Plugin<Project> {
 
@@ -14,7 +16,12 @@ class Ex53CustomPlugin implements Plugin<Project> {
 }
 
 /*
-D:\Android\Workspace\android-gradle\chapter05\example53>gradle -q ex53CustomTask
-prependParallelSafeAction called
+>gradle -q ex53CustomTask
 这是一个通过自定义插件方式创建的任务!!!!
 */
+// 使用 buildSrc 的方式
+apply plugin: MyPlugin
+/*
+>gradle -q tiger
+Happy Tiger Year
+ */

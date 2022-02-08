@@ -1,0 +1,34 @@
+apply plugin: "java"
+import org.apache.commons.lang3.StringUtils;
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        // 加入到 buildscript（构建脚本） 的 classpath 中。
+        classpath group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+    // 会在 compileJava 时，加入到 classpath 中。
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+}
+
+tasks.register("hello_empty") {
+    doLast {
+        def str = "hello"
+        if (StringUtils.isEmpty(str)) {
+            println "empty"
+        } else {
+            println "not empty"
+        }
+    }
+}

@@ -3,5 +3,5 @@ plugins {
     id 'eclipse'
     id 'idea'
 }
-//D:\Workspace\android-gradle\chapter06\example610>gradle :chapter06:example610:idea
-//D:\Workspace\android-gradle\chapter06\example610>gradle :chapter06:example610:eclipse
+//>gradle :chapter06:example610:idea
+//>gradle :chapter06:example610:eclipse
