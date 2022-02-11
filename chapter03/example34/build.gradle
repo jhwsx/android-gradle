@@ -31,7 +31,8 @@ tasks.register("customTask3") {
 // 运行命令：gradle -q customTask2
 
 // 自定义 Task
-class GreetingTask extends DefaultTask {
+abstract class GreetingTask extends DefaultTask {
+    @Input
     String message = "world"
 
     @TaskAction

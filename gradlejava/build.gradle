@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+// 一个 Project 代表一个正在构建的组件（如 jar 文件，aar 文件，apk 文件），当构建开始时，Gradle 会基于 build.gradle 实例化
+// 一个 org.gradle.Project 对象，并通过 project 变量隐式地调用其成员
+println "project = $project"
+println "group = ${project.group}"
+println "name = ${project.name}"
+println "version = ${project.version}"
+println "path = ${project.path}"
+println "description = ${project.description}"
+println "projectDir = ${project.projectDir}"
+println "buildDir = ${project.buildDir}"
+println "ant = ${project.ant}"
+/*
+project = root project 'gradlejava'
+group = org.example
+name = gradlejava
+version = 1.0-SNAPSHOT
+path = :
+description = null
+projectDir = D:\Android\Workspace\android-gradle\gradlejava
+buildDir = D:\Android\Workspace\android-gradle\gradlejava\build
+ant = org.gradle.api.internal.project.DefaultAntBuilder@8c7fb8a
+ */
