@@ -7,7 +7,7 @@ buildscript {
 
     }
     dependencies {
-        // 配置 Android Gradle 插件的 classpath
+        // AGP 是第三方插件，所以需要配置 Android Gradle 插件的 classpath
         classpath 'com.android.tools.build:gradle:4.1.3'
     }
 }

@@ -1,2 +1,53 @@
 rootProject.name = 'gradlejava'
+// 构建开始
+//gradle.buildStarted {
+//    println "buildStarted"
+//}
+// 初始化阶段
+gradle.settingsEvaluated {
+    println "Initialization: settingsEvaluated"
+}
 
+gradle.projectsLoaded {
+    println "Initialization: projectsLoaded"
+}
+// 配置阶段
+// 在构建一个 Project 之前调用
+gradle.beforeProject {
+    println "Configuration: beforeProject, $it"
+}
+// project 不可以在这里写
+//project.beforeEvaluate {
+//    println "beforeEvaluate"
+//}
+// 执行配置
+// 配置后
+// 在构建一个 Project 之后调用
+gradle.afterProject {
+    println "Configuration: afterProject, $it"
+}
+
+//project.afterEvaluate {
+//    println "afterEvaluate"
+//}
+// 当所有的 project 都构建好时回调
+gradle.projectsEvaluated {
+    println "Configuration: projectsEvaluated"
+}
+// 当任务图准备好时被回调
+gradle.taskGraph.whenReady {
+    println "Configuration: taskGraph.whenReady"
+}
+// 执行阶段
+// 当执行 Task 前回调
+gradle.taskGraph.beforeTask {
+    println "Execution: taskGraph.beforeTask, $it"
+}
+// 当执行 Task 后回调
+gradle.taskGraph.afterTask {
+    println "Execution: taskGraph.afterTask, $it"
+}
+// 当所有的构建（初始化，配置，执行）都结束后回调
+gradle.buildFinished {
+    println "buildFinished"
+}

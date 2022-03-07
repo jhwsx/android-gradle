@@ -1,7 +1,10 @@
 plugins {
     id 'java'
 }
-
+// 这个没有被回调
+project.beforeEvaluate {
+    println "Configuration: beforeEvaluate"
+}
 group 'org.example'
 version '1.0-SNAPSHOT'
 
@@ -20,22 +23,26 @@ test {
 // 一个 Project 代表一个正在构建的组件（如 jar 文件，aar 文件，apk 文件），当构建开始时，Gradle 会基于 build.gradle 实例化
 // 一个 org.gradle.Project 对象，并通过 project 变量隐式地调用其成员
 println "project = $project"
-println "group = ${project.group}"
-println "name = ${project.name}"
-println "version = ${project.version}"
-println "path = ${project.path}"
-println "description = ${project.description}"
-println "projectDir = ${project.projectDir}"
-println "buildDir = ${project.buildDir}"
-println "ant = ${project.ant}"
+println "项目分组 group = ${project.group}"
+println "项目目录名 name = ${project.name}"
+println "项目版本 version = ${project.version}"
+println "项目绝对路径 path = ${project.path}"
+println "项目描述 description = ${project.description}"
+println "包含生成脚本目录 projectDir = ${project.projectDir}"
+println "projectDir/build 目录 buildDir = ${project.buildDir}"
+println "AntBuilder 实例 ant = ${project.ant}"
 /*
 project = root project 'gradlejava'
-group = org.example
-name = gradlejava
-version = 1.0-SNAPSHOT
-path = :
-description = null
-projectDir = D:\Android\Workspace\android-gradle\gradlejava
-buildDir = D:\Android\Workspace\android-gradle\gradlejava\build
-ant = org.gradle.api.internal.project.DefaultAntBuilder@8c7fb8a
+项目分组 group = org.example
+项目目录名 name = gradlejava
+项目版本 version = 1.0-SNAPSHOT
+项目绝对路径 path = :
+项目描述 description = null
+包含生成脚本目录 projectDir = D:\Android\Workspace\android-gradle\gradlejava
+projectDir/build 目录 buildDir = D:\Android\Workspace\android-gradle\gradlejava\build
+AntBuilder 实例 ant = org.gradle.api.internal.project.DefaultAntBuilder@66e689ac
  */
+
+project.afterEvaluate {
+    println "Configuration: afterEvaluate, $it"
+}

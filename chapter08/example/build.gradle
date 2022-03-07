@@ -43,16 +43,20 @@ android {
             keyPassword "123456"
         }
     }
+    // 打印签名信息：
+    println "release 签名信息：${signingConfigs.release}"
+    println "debug 签名信息：${signingConfigs.debug}"
     defaultConfig {
         applicationId "com.example.example"
         minSdkVersion 16 // 最低支持的 Android 操作系统版本，值为 api level
         targetSdkVersion 30 // 基于哪个 Android 操作系统版本开发
         versionCode 1
         versionName "1.0"
-
+        // 配置测试 app 的包名
         testApplicationId "com.example.example.test"
-
+        // 配置单元测试所使用的 Runner
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "NAME", "\"wangzhichao\""
     }
 
     // public abstract val buildTypes: org.gradle.api.NamedDomainObjectContainer<com.android.build.gradle.internal.dsl.BuildType>
@@ -66,6 +70,7 @@ android {
             signingConfig signingConfigs.release
             // 混淆配置文件
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' // 参数是一个可变类型的参数，可以同时接受多个配置文件。
+            manifestPlaceholders = [APPLICATION_COMPILE_ID : "2022022511"]
         }
 
         debug {
@@ -74,6 +79,7 @@ android {
             debuggable true
             jniDebuggable true
             signingConfig signingConfigs.debug
+            manifestPlaceholders = [APPLICATION_COMPILE_ID : "2022022512"]
         }
     }
 
@@ -89,7 +95,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     // 依赖这个，可以点进去属性，但是不能运行
-//    implementation 'com.android.tools.build:gradle:4.1.3'
+    compileOnly 'com.android.tools.build:gradle:4.1.3'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

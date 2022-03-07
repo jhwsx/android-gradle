@@ -1,2 +1,0 @@
-com/wzc/gradlejava/App.java
- com.wzc.gradlejava.App

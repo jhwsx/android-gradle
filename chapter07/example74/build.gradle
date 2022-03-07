@@ -7,7 +7,7 @@ buildscript {
 
     }
     dependencies {
-        // 配置 Android Gradle 插件的 classpath
+        // 因为 AGP 是第三方插件，所以要配置 Android Gradle 插件的 classpath
         classpath 'com.android.tools.build:gradle:4.1.3'
     }
 }
@@ -20,7 +20,7 @@ allprojects {
 }
 
 apply plugin: 'com.android.application'
-
+// android {} 是 Android 插件提供的一个扩展类型，在这里可以对 android gradle 工程进行自定义的配置。
 android {
     // 编译 Android 工程的 SDK
     // compileSdkVersion 30
@@ -60,4 +60,5 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    compileOnly 'com.android.tools.build:gradle:4.1.3'
 }

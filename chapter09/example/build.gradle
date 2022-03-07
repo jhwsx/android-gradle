@@ -66,8 +66,8 @@ android {
         release {
             /*这是 BuildType 类中的方法*/
             buildConfigField("Boolean", "LOG_SWITCH", "false")
-            minifyEnabled false // 是否开启 Proguard 混淆
-            shrinkResources false // 是否自动清理未使用的资源。
+            minifyEnabled false // 是否开启 Proguard 混淆，也称为 Code Shrinking
+            shrinkResources false // 是否自动清理未使用的资源，成为 Resources Shrinking
             zipAlignEnabled true // zipalign 是 Android 提供的开启整理优化 apk 文件的工具，能提高系统和应用的运行效率，更快地读写 apk 中的资源，降低内存的使用。
             multiDexEnabled true // 配置该 BuildType 是否启用自动拆分多个 dex 的功能。
             signingConfig signingConfigs.release
@@ -81,6 +81,7 @@ android {
             //versionNameSuffix = "-debug"
             debuggable true
             jniDebuggable true
+            multiDexEnabled true // 配置该 BuildType 是否启用自动拆分多个 dex 的功能。
             signingConfig signingConfigs.debug
         }
     }
@@ -143,12 +144,17 @@ android {
     }
 
     // applicationVariants 是 DomainObjectSet<ApplicationVariant> 类型，这是一个 DomainObjectCollection，可以通过 all 方法进行遍历
-    // TODO 为什么这块代码点不进去？
     applicationVariants.all { variant ->
+        // BaseVariantOutputImpl 中的
+        // DomainObjectCollection<BaseVariantOutput> getOutputs();
         variant.outputs.all { output ->
             if (output.outputFile != null && output.outputFile.name.endsWith(".apk")
                     && 'release' == variant.buildType.name) {
                 def flavorName = variant.flavorName.startsWith("_") ? variant.flavorName.substring(1) : variant.flavorName
+                // 3.0.0 之后这种方式会报错
+//                def apkFile = new File(output.outputFile.getParent(), "Example09_${flavorName}_v${variant.versionName}_${buildTime()}.apk")
+//                output.outputFile = apkFile
+                // 使用如下的写法
                 outputFileName = "Example09_${flavorName}_v${variant.versionName}_${buildTime()}.apk"
             }
         }
@@ -160,6 +166,10 @@ android {
         encoding = 'utf-8'
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    jacoco {
+        version "0.7.9"
     }
     /*adb 操作选项配置*/
     adbOptions {
@@ -181,7 +191,7 @@ android {
 
     dexOptions {
         /*DexOptions类*/
-        threadCount 2
+        threadCount 2 // 开启多线程
         incremental true // 是否启动用 dx 的增量模式，默认是 false。
         javaMaxHeapSize '4g' // 配置执行 dx 命令时分配的最大堆内存。
         jumboMode true
@@ -198,8 +208,9 @@ def buildTime() {
  */
 def getAppVersionName() {
     def stdout = new ByteArrayOutputStream()
-    // exec 是 Project 类中的一个方法
+    // exec 是 Project 类中的一个方法，用于执行 shell 命令
     exec {
+        // 闭包里面配置一个 ExecSpec
         commandLine 'git','describe','--abbrev=0','--tags'
         setStandardOutput(stdout)
     }
@@ -220,8 +231,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    // 依赖这个，可以点进去属性，但是不能运行
-//    implementation 'com.android.tools.build:gradle:4.1.3'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
