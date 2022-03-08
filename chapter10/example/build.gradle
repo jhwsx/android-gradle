@@ -1,0 +1,112 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+    // 从 API 23 开始，标准的 Android SDK 中不再包含 HttpClient 库，如果还想使用 HttpClient 库，就必须使用 org.apache.http.legacy 这个可选库
+    // 这行表示使用 useLibrary 把这个库添加到 classpath 中
+    useLibrary 'org.apache.http.legacy'
+    // public abstract val signingConfigs: org.gradle.api.NamedDomainObjectContainer<com.android.build.gradle.internal.dsl.SigningConfig>
+    // signingConfigs 的类型是 NamedDomainObjectContainer，在 signingConfigs {} 中定义的都是一个 SigningConfig
+    signingConfigs {
+        release { // release 是 SigningConfig 的 name
+            storeFile file("releasekey.jks")
+            storePassword "123456"
+            keyAlias "releasekey"
+            keyPassword "123456"
+        }
+        debug {
+            storeFile file("debugkey.jks")
+            storePassword "123456"
+            keyAlias "debugkey"
+            keyPassword "123456"
+        }
+    }
+    defaultConfig {
+        applicationId "com.example.chapter10"
+        minSdkVersion 16 // 最低支持的 Android 操作系统版本，值为 api level
+        targetSdkVersion 30 // 基于哪个 Android 操作系统版本开发
+//        versionCode appVersionCode
+        versionCode 1
+        // versionName appVersionName
+        versionName "1.0.0"
+
+        testApplicationId "com.example.example.test"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes { // 构建类型
+        release {
+            buildConfigField("Boolean", "LOG_SWITCH", "false")
+            minifyEnabled false // 是否开启 Proguard 混淆，也称为 Code Shrinking
+            shrinkResources false // 是否自动清理未使用的资源，成为 Resources Shrinking
+            zipAlignEnabled true // zipalign 是 Android 提供的开启整理优化 apk 文件的工具，能提高系统和应用的运行效率，更快地读写 apk 中的资源，降低内存的使用。
+            multiDexEnabled true // 配置该 BuildType 是否启用自动拆分多个 dex 的功能。
+            signingConfig signingConfigs.release
+            // 混淆配置文件
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' // 参数是一个可变类型的参数，可以同时接受多个配置文件。
+        }
+
+        debug {
+            buildConfigField("Boolean", "LOG_SWITCH", "true")
+            applicationIdSuffix = ".debug"
+            debuggable true
+            jniDebuggable true
+            multiDexEnabled true // 配置该 BuildType 是否启用自动拆分多个 dex 的功能。
+            signingConfig signingConfigs.debug
+        }
+    }
+    flavorDimensions "version"
+
+    productFlavors {
+
+        huawei {
+            buildConfigField("String", "WEB_URL", '"https://www.huawei.com"')
+            resValue('string', 'channel_tips', 'huawei 渠道，你好')
+        }
+        oppo {
+            buildConfigField("String", "WEB_URL", '"https://www.oppo.com"')
+            resValue('string', 'channel_tips', 'oppo 渠道，你好')
+        }
+
+
+    }
+
+    applicationVariants.all { variant ->
+
+        variant.outputs.all { output ->
+            if (output.outputFile != null && output.outputFile.name.endsWith(".apk")
+                    && 'release' == variant.buildType.name) {
+                def flavorName = variant.flavorName.startsWith("_") ? variant.flavorName.substring(1) : variant.flavorName
+                outputFileName = "Example10_${flavorName}_v${variant.versionName}_${buildTime()}.apk"
+            }
+        }
+    }
+
+    compileOptions {
+        encoding = 'utf-8'
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+def buildTime() {
+    return new Date().format("yyyy-MM-dd-HHmmss", TimeZone.getTimeZone("GMT+08"))
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    // 直接这样写，让后在 Build Variants 里面选择对应的变种就可以了。
+    implementation project(path: ":chapter10:library:lib1")
+    // 这种是旧的写法
+//    oppoImplementation project(path: ":chapter10:library:lib1", configuration: "oppoDebug")
+//    huaweiImplementation project(path: ":chapter10:library:lib1", configuration: "huaweiDebug")
+}
