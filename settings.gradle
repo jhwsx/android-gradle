@@ -59,3 +59,6 @@ include ':chapter07:example74'
 include ':chapter08:example'
 // chapter09 Android Gradle 高级自定义
 include ':chapter09:example'
+// chapter10 Android 多项目构建
+include ':chapter10:example'
+include ':chapter10:library:lib1'
